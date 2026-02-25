@@ -74,14 +74,62 @@ export function parseBookmarkFile(html: string): ParseResult {
     });
   }
 
-  // Find the top-level <DL> and start walking
-  const topDl = $("dl").first();
-  if (topDl.length === 0) {
+  // Find all top-level <DL> elements (those not nested inside another <DL>).
+  // Chrome wraps everything in a single outer <DL>, so this finds one entry.
+  // Safari has NO outer <DL> — each section (Favorites, Reading List, etc.)
+  // is a sibling <DT><H3>...<DL>, so we find multiple top-level DLs.
+  const topLevelDls: cheerio.Cheerio<Element>[] = [];
+  $("dl").each((_, dl) => {
+    const $dl = $(dl);
+    if ($dl.parents("dl").length === 0) {
+      topLevelDls.push($dl);
+    }
+  });
+
+  if (topLevelDls.length === 0) {
     errors.push("No bookmark list found in the file.");
     return { bookmarks, errors };
   }
 
-  walk(topDl, []);
+  for (const $dl of topLevelDls) {
+    // Check if this DL belongs to a folder (parent DT has an H3)
+    const parentDt = $dl.parent("dt");
+    const h3 = parentDt.length > 0 ? parentDt.children("h3") : null;
+    const folderName = h3 && h3.length > 0 ? h3.text().trim() : null;
+    const stack = folderName ? [folderName] : [];
+    walk($dl, stack);
+  }
+
+  // Handle loose <DT><A> elements not inside any <DL>
+  // (bookmarks between top-level folders in Safari format)
+  $("dt").each((_, dt) => {
+    const $dt = $(dt);
+    if ($dt.parents("dl").length === 0) {
+      const anchor = $dt.children("a");
+      if (anchor.length > 0) {
+        const url = anchor.attr("href");
+        const title = anchor.text().trim();
+        const addDateStr = anchor.attr("add_date");
+
+        if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+          let dateAdded: Date | null = null;
+          if (addDateStr) {
+            const timestamp = parseInt(addDateStr, 10);
+            if (!isNaN(timestamp) && timestamp > 0) {
+              dateAdded = new Date(timestamp * 1000);
+            }
+          }
+
+          bookmarks.push({
+            url,
+            title: title || url,
+            folderPath: null,
+            dateAdded,
+          });
+        }
+      }
+    }
+  });
 
   if (bookmarks.length === 0 && errors.length === 0) {
     errors.push("No bookmarks found in the file. The file may be empty or in an unexpected format.");
