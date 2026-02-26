@@ -40,3 +40,8 @@ next-env.d.ts
 /data/*.db
 /data/*.db-wal
 /data/*.db-shm
+
+# bookmark export test data (may contain sensitive URLs)
+Safari Bookmarks*/
+Chrome Bookmarks*/
+*.bookmarks.html
