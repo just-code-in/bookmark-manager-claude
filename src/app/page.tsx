@@ -34,13 +34,18 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="cursor-not-allowed rounded-xl border border-gray-200 p-6 opacity-50 dark:border-gray-800">
-            <h2 className="text-xl font-semibold">Browse & Organize</h2>
+          <Link
+            href="/bookmarks"
+            className="group rounded-xl border border-gray-200 p-6 transition-colors hover:border-blue-500 hover:bg-blue-50 dark:border-gray-800 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+          >
+            <h2 className="text-xl font-semibold group-hover:text-blue-600">
+              Browse & Organize
+            </h2>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Review your categorized bookmarks. Keep, archive, or delete.
-              Coming soon.
+              View all imported bookmarks. Filter by status — live, redirected,
+              dead, or untested.
             </p>
-          </div>
+          </Link>
 
           <div className="cursor-not-allowed rounded-xl border border-gray-200 p-6 opacity-50 dark:border-gray-800">
             <h2 className="text-xl font-semibold">Search</h2>
