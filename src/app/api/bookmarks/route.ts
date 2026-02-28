@@ -42,6 +42,10 @@ export async function GET() {
       redirectUrl: bookmarks.redirectUrl,
       httpStatusCode: bookmarks.httpStatusCode,
       urlError: bookmarks.urlError,
+      category: bookmarks.category,
+      tags: bookmarks.tags,
+      summary: bookmarks.summary,
+      triageStatus: bookmarks.triageStatus,
     })
     .from(bookmarks)
     .all();

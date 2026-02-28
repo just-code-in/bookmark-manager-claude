@@ -26,13 +26,18 @@ export default function Home() {
             </p>
           </Link>
 
-          <div className="cursor-not-allowed rounded-xl border border-gray-200 p-6 opacity-50 dark:border-gray-800">
-            <h2 className="text-xl font-semibold">AI Triage</h2>
+          <Link
+            href="/triage"
+            className="group rounded-xl border border-gray-200 p-6 transition-colors hover:border-blue-500 hover:bg-blue-50 dark:border-gray-800 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+          >
+            <h2 className="text-xl font-semibold group-hover:text-blue-600">
+              AI Triage
+            </h2>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Categorize, tag, and summarize your bookmarks with AI. Coming
-              soon.
+              Categorize, tag, and summarize your bookmarks with AI. Uses
+              GPT-4o-mini to analyse page content and generate categories.
             </p>
-          </div>
+          </Link>
 
           <Link
             href="/bookmarks"

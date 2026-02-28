@@ -22,6 +22,10 @@ export interface BookmarkData {
   redirectUrl: string | null;
   httpStatusCode: number | null;
   urlError: string | null;
+  category?: string | null;
+  tags?: string | null;
+  summary?: string | null;
+  triageStatus?: string;
 }
 
 export interface BatchStats {
@@ -54,6 +58,16 @@ const filters: { key: StatusFilter; label: string }[] = [
   { key: "pending", label: "Untested" },
 ];
 
+function parseTags(tagsJson: string | null | undefined): string[] {
+  if (!tagsJson) return [];
+  try {
+    const parsed = JSON.parse(tagsJson);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 interface BookmarkTableProps {
   bookmarks: BookmarkData[];
   stats: BatchStats;
@@ -61,6 +75,13 @@ interface BookmarkTableProps {
 
 export function BookmarkTable({ bookmarks, stats }: BookmarkTableProps) {
   const [activeFilter, setActiveFilter] = useState<StatusFilter>("all");
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  // Detect if any bookmarks have triage data
+  const hasTriageData = useMemo(
+    () => bookmarks.some((b) => b.triageStatus === "completed"),
+    [bookmarks],
+  );
 
   const filtered = useMemo(() => {
     if (activeFilter === "all") return bookmarks;
@@ -71,6 +92,8 @@ export function BookmarkTable({ bookmarks, stats }: BookmarkTableProps) {
     if (key === "all") return stats.total;
     return stats[key];
   }
+
+  const colSpan = hasTriageData ? 6 : 4;
 
   return (
     <div className="space-y-4">
@@ -95,63 +118,121 @@ export function BookmarkTable({ bookmarks, stats }: BookmarkTableProps) {
               <TableHead>Folder</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">HTTP</TableHead>
+              {hasTriageData && (
+                <>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Tags</TableHead>
+                </>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={4}
+                  colSpan={colSpan}
                   className="py-8 text-center text-gray-500"
                 >
                   No bookmarks match this filter.
                 </TableCell>
               </TableRow>
             ) : (
-              filtered.map((bookmark) => (
-                <TableRow key={bookmark.id}>
-                  <TableCell>
-                    <div className="max-w-xs">
-                      <p className="truncate font-medium">{bookmark.title}</p>
-                      <a
-                        href={bookmark.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="truncate text-xs text-blue-600 hover:underline dark:text-blue-400"
-                      >
-                        {bookmark.url}
-                      </a>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-sm text-gray-500">
-                    {bookmark.folderPath || "-"}
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant="secondary"
-                      className={
-                        statusBadgeColors[bookmark.urlStatus] ||
-                        statusBadgeColors.pending
+              filtered.map((bookmark) => {
+                const tags = parseTags(bookmark.tags);
+                const isExpanded = expandedId === bookmark.id;
+                const hasSummary = !!bookmark.summary;
+
+                return (
+                  <TableRow
+                    key={bookmark.id}
+                    className={hasSummary ? "cursor-pointer" : ""}
+                    onClick={() => {
+                      if (hasSummary) {
+                        setExpandedId(isExpanded ? null : bookmark.id);
                       }
-                    >
-                      {displayStatus(bookmark.urlStatus)}
-                    </Badge>
-                    {bookmark.urlError && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {bookmark.urlError}
-                      </p>
+                    }}
+                  >
+                    <TableCell>
+                      <div className="max-w-xs">
+                        <p className="truncate font-medium">{bookmark.title}</p>
+                        <a
+                          href={bookmark.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="truncate text-xs text-blue-600 hover:underline dark:text-blue-400"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {bookmark.url}
+                        </a>
+                        {isExpanded && bookmark.summary && (
+                          <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                            {bookmark.summary}
+                          </p>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-500">
+                      {bookmark.folderPath || "-"}
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="secondary"
+                        className={
+                          statusBadgeColors[bookmark.urlStatus] ||
+                          statusBadgeColors.pending
+                        }
+                      >
+                        {displayStatus(bookmark.urlStatus)}
+                      </Badge>
+                      {bookmark.urlError && (
+                        <p className="mt-1 text-xs text-red-500">
+                          {bookmark.urlError}
+                        </p>
+                      )}
+                      {bookmark.redirectUrl && (
+                        <p className="mt-1 truncate text-xs text-yellow-600">
+                          &rarr; {bookmark.redirectUrl}
+                        </p>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right text-sm text-gray-500">
+                      {bookmark.httpStatusCode || "-"}
+                    </TableCell>
+                    {hasTriageData && (
+                      <>
+                        <TableCell>
+                          {bookmark.category && (
+                            <Badge
+                              variant="secondary"
+                              className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                            >
+                              {bookmark.category}
+                            </Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-wrap gap-1">
+                            {tags.slice(0, 3).map((tag) => (
+                              <Badge
+                                key={tag}
+                                variant="outline"
+                                className="px-1.5 py-0 text-[10px]"
+                              >
+                                {tag}
+                              </Badge>
+                            ))}
+                            {tags.length > 3 && (
+                              <span className="text-[10px] text-gray-400">
+                                +{tags.length - 3}
+                              </span>
+                            )}
+                          </div>
+                        </TableCell>
+                      </>
                     )}
-                    {bookmark.redirectUrl && (
-                      <p className="mt-1 truncate text-xs text-yellow-600">
-                        &rarr; {bookmark.redirectUrl}
-                      </p>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right text-sm text-gray-500">
-                    {bookmark.httpStatusCode || "-"}
-                  </TableCell>
-                </TableRow>
-              ))
+                  </TableRow>
+                );
+              })
             )}
           </TableBody>
         </Table>
