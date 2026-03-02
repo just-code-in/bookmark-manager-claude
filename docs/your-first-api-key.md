@@ -34,16 +34,19 @@ Check the README in the project you cloned — it will tell you which AI service
 4. Give it a name you'll recognise — something like "Bookmark Manager" is fine
 5. Copy the key immediately. You won't be able to see it again after you close this window
 
-![The OpenAI platform dashboard showing the API keys section with a green Create new secret key button](images/openai-api-keys-page.png)
+<img src="images/openai-api-keys-page.png" alt="The OpenAI platform dashboard showing the API keys section with a green Create new secret key button" width="500" />
+
 *Click "Create new secret key." That's it — no configuration, no settings to worry about.*
 
-![A dialog box for creating a new OpenAI API key, with Bookmark Manager typed in the name field](images/openai-create-key-dialog.png)
+<img src="images/openai-create-key-dialog.png" alt="A dialog box for creating a new OpenAI API key, with Bookmark Manager typed in the name field" width="400" />
+
 *Give it a name you'll recognise. "Bookmark Manager" works perfectly.*
 
 > [!IMPORTANT]
 > You'll need to add credit to your OpenAI account before the key will work. Go to **Settings → Billing** and add a payment method. $5 is more than enough for this project — you can always add more later. Set a usage limit if you'd like peace of mind.
 
-![The OpenAI billing settings page showing where to add a payment method and set a monthly usage limit](images/openai-add-credit.png)
+<img src="images/openai-add-credit.png" alt="The OpenAI billing settings page showing where to add a payment method and set a monthly usage limit" width="400" />
+
 *Add $5 of credit and set a usage limit. You'll spend well under a dollar on this project — the limit is just peace of mind.*
 
 ---
@@ -56,16 +59,19 @@ Check the README in the project you cloned — it will tell you which AI service
 4. Name it — "Bookmark Manager" works
 5. Copy the key immediately
 
-![The Anthropic console showing the API keys section with a Create Key button](images/anthropic-api-keys-page.png)
+<img src="images/anthropic-api-keys-page.png" alt="The Anthropic console showing the API keys section with a Create Key button" width="500" />
+
 *Same idea, different provider. Create, name, copy.*
 
-![A dialog box for creating a new Anthropic API key, with Bookmark Manager typed in the name field](images/anthropic-create-key-dialog.png)
+<img src="images/anthropic-create-key-dialog.png" alt="A dialog box for creating a new Anthropic API key, with Bookmark Manager typed in the name field" width="400" />
+
 *Same process — name it and copy the key straight away.*
 
 > [!IMPORTANT]
 > Like OpenAI, you'll need to add credit before the key works. Go to **Settings → Billing** in the console and add a payment method. $5 is plenty.
 
-![The Anthropic console billing page showing where to add credit](images/anthropic-add-credit.png)
+<img src="images/anthropic-add-credit.png" alt="The Anthropic console billing page showing where to add credit" width="400" />
+
 *$5 of credit here too. The app logs every penny it spends, so no surprises.*
 
 ---
@@ -112,7 +118,8 @@ This is the part that sounds technical but is genuinely just copying and pasting
 
 Replace `sk-your-key-here` with the key you copied from the provider's website. Save the file and close it.
 
-![A text editor showing a .env file with a single line reading OPENAI_API_KEY followed by a redacted key value](images/env-file-openai.png)
+<img src="images/env-file-openai.png" alt="A text editor showing a .env file with a single line reading OPENAI_API_KEY followed by a redacted key value" width="500" />
+
 *The whole file is one line. Paste your key, save, done. The app picks it up automatically.*
 
 > [!WARNING]
