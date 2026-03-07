@@ -40,24 +40,30 @@ export default function Home() {
           </Link>
 
           <Link
-            href="/bookmarks"
+            href="/organize"
             className="group rounded-xl border border-gray-200 p-6 transition-colors hover:border-blue-500 hover:bg-blue-50 dark:border-gray-800 dark:hover:border-blue-500 dark:hover:bg-blue-950"
           >
             <h2 className="text-xl font-semibold group-hover:text-blue-600">
-              Browse & Organize
+              Organise
             </h2>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              View all imported bookmarks. Filter by status — live, redirected,
-              dead, or untested.
+              Browse by category, keep or archive bookmarks, edit AI-generated
+              summaries and tags, and manage categories.
             </p>
           </Link>
 
-          <div className="cursor-not-allowed rounded-xl border border-gray-200 p-6 opacity-50 dark:border-gray-800">
-            <h2 className="text-xl font-semibold">Search</h2>
+          <Link
+            href="/search"
+            className="group rounded-xl border border-gray-200 p-6 transition-colors hover:border-blue-500 hover:bg-blue-50 dark:border-gray-800 dark:hover:border-blue-500 dark:hover:bg-blue-950"
+          >
+            <h2 className="text-xl font-semibold group-hover:text-blue-600">
+              Search
+            </h2>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Find bookmarks using natural language. Coming soon.
+              Find bookmarks in plain English using semantic search — no exact
+              keywords needed.
             </p>
-          </div>
+          </Link>
         </div>
       </div>
     </main>
