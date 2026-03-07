@@ -99,15 +99,17 @@ This is the part that sounds technical but is genuinely just copying and pasting
 > [!NOTE]
 > If there's no `.env.example` file yet, you can create one directly. The README in your build will tell you exactly what to put in it. It will look something like this:
 >
-> **For OpenAI:**
-> ```
-> OPENAI_API_KEY=sk-your-key-here
-> ```
->
-> **For Anthropic:**
-> ```
-> ANTHROPIC_API_KEY=sk-ant-your-key-here
-> ```
+ > **For OpenAI:**
+ >
+ > ```text
+ > OPENAI_API_KEY=sk-your-key-here
+ > ```
+ >
+ > **For Anthropic:**
+ >
+ > ```text
+ > ANTHROPIC_API_KEY=sk-ant-your-key-here
+ > ```
 
 **Step 3:** Open the `.env` file in a text editor and paste your API key in place of the placeholder text.
 
@@ -127,7 +129,7 @@ Replace `sk-your-key-here` with the key you copied from the provider's website. 
 
 **Step 4:** Start the app as normal:
 
-```
+```bash
 npm run dev
 ```
 

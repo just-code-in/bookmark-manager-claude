@@ -48,6 +48,11 @@ open http://localhost:3000
 3. **Drop your file** or click to browse
 4. **Review** the parse summary, then click "Validate URLs" to check link status
 
+## Guides
+
+- [Getting Started](./docs/getting-started.md) — step-by-step walkthrough for first-time setup
+- [Your First API Key](./docs/your-first-api-key.md) — connecting an AI service for categorisation and search
+
 ## Project Structure
 
 ```text
