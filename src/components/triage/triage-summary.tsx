@@ -56,43 +56,38 @@ export function TriageSummary({ initialStats, onRetryFailed }: TriageSummaryProp
     : initialStats ?? null;
 
   if (!stats) {
-    return <p className="text-gray-500">Loading summary...</p>;
+    return <p className="text-muted-foreground">Loading summary...</p>;
   }
 
   return (
     <div className="space-y-6">
-      {/* Summary stat cards */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Categorised
-            </p>
-            <p className="text-2xl font-bold">{stats.categorized}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Categories
-            </p>
-            <p className="text-2xl font-bold">{stats.categories}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">Failed</p>
-            <p className="text-2xl font-bold">{stats.failed}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              API Cost
-            </p>
-            <p className="text-2xl font-bold">${stats.totalCost.toFixed(4)}</p>
-          </CardContent>
-        </Card>
+      {/* Summary stat boxes */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Categorised</p>
+          </div>
+          <p className="text-lg font-semibold tabular-nums text-emerald-600">{stats.categorized}</p>
+        </div>
+        <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Categories</p>
+          </div>
+          <p className="text-lg font-semibold tabular-nums text-sky-600">{stats.categories}</p>
+        </div>
+        <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+          <div className="flex items-center gap-1.5 mb-1">
+            {stats.failed > 0 && <span className="h-1.5 w-1.5 rounded-full bg-red-500" />}
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Failed</p>
+          </div>
+          <p className={`text-lg font-semibold tabular-nums ${stats.failed > 0 ? "text-destructive" : "text-foreground"}`}>{stats.failed}</p>
+        </div>
+        <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+          <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">API Cost</p>
+          <p className="text-lg font-semibold tabular-nums text-muted-foreground">${stats.totalCost.toFixed(4)}</p>
+        </div>
       </div>
 
       {/* Category breakdown table */}

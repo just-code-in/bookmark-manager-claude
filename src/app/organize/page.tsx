@@ -266,7 +266,9 @@ export default function OrganizePage() {
     return (
       <main className="min-h-screen bg-[var(--background)]">
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <p className="text-sm text-gray-500">Loading bookmarks…</p>
+          <div className="flex items-center justify-center py-24">
+            <p className="text-sm text-muted-foreground">Loading bookmarks…</p>
+          </div>
         </div>
       </main>
     );
@@ -276,13 +278,13 @@ export default function OrganizePage() {
     return (
       <main className="min-h-screen bg-[var(--background)]">
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <Link href="/" className="text-sm text-gray-500 hover:text-gray-700">&larr; Home</Link>
-          <h1 className="mt-1 text-2xl font-bold">Organise</h1>
+          <h1 className="text-2xl font-semibold">Organise</h1>
           <Card className="mt-8">
-            <CardContent className="py-12 text-center">
-              <p className="text-gray-500">No bookmarks imported yet.</p>
-              <Link href="/import" className="mt-2 inline-block text-sm text-blue-600 hover:underline">
-                Import your bookmarks &rarr;
+            <CardContent className="flex flex-col items-center py-16 text-center">
+              <p className="text-sm font-medium text-foreground">No bookmarks yet</p>
+              <p className="mt-1 text-sm text-muted-foreground">Import your bookmarks to get started</p>
+              <Link href="/import" className="mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Go to Import &rarr;
               </Link>
             </CardContent>
           </Card>
@@ -296,11 +298,8 @@ export default function OrganizePage() {
       <div className="mx-auto max-w-7xl px-6 py-8">
         {/* Header */}
         <div className="mb-6">
-          <Link href="/" className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-            &larr; Home
-          </Link>
-          <h1 className="mt-1 text-2xl font-bold">Organise</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl font-semibold">Organise</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
             Browse by category, manage triage actions, and edit AI-generated metadata
           </p>
         </div>
@@ -313,7 +312,7 @@ export default function OrganizePage() {
         {/* Main layout */}
         <div className="flex gap-6">
           {/* Category sidebar */}
-          <aside className="w-52 shrink-0">
+          <aside className="w-56 shrink-0">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">Categories</CardTitle>
@@ -350,10 +349,10 @@ export default function OrganizePage() {
             />
 
             {/* Select all + count */}
-            <div className="flex items-center gap-3 text-sm text-gray-500">
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
               <button
                 onClick={handleSelectAll}
-                className="text-xs hover:text-gray-700 dark:hover:text-gray-300"
+                className="hover:text-foreground transition-colors"
               >
                 {selectedIds.size === displayed.length && displayed.length > 0
                   ? "Deselect all"
@@ -365,8 +364,9 @@ export default function OrganizePage() {
             {/* Cards */}
             {displayed.length === 0 ? (
               <Card>
-                <CardContent className="py-8 text-center text-gray-400">
-                  No bookmarks match the current filters.
+                <CardContent className="flex flex-col items-center py-12 text-center">
+                  <p className="text-sm font-medium text-foreground">No matches</p>
+                  <p className="mt-1 text-sm text-muted-foreground">Try adjusting your filters</p>
                 </CardContent>
               </Card>
             ) : (

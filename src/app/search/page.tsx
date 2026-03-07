@@ -125,28 +125,22 @@ export default function SearchPage() {
 
   return (
     <main className="min-h-screen bg-[var(--background)]">
-      <div className="mx-auto max-w-3xl px-6 py-8">
+      <div className="mx-auto max-w-2xl px-6 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link
-            href="/"
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            &larr; Home
-          </Link>
-          <h1 className="mt-1 text-2xl font-bold">Search</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl font-semibold">Search</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
             Find bookmarks in plain English using semantic similarity
           </p>
         </div>
 
         {/* Embedding status banner */}
         {noEmbeddingsAtAll && (
-          <Card className="mb-6 border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950">
+          <Card className="mb-6 border-amber-200/60 bg-amber-50/50">
             <CardContent className="py-4">
-              <p className="text-sm text-yellow-800 dark:text-yellow-300">
+              <p className="text-sm text-amber-700">
                 No embeddings found. Run{" "}
-                <Link href="/triage" className="font-medium underline">
+                <Link href="/triage" className="font-medium underline underline-offset-2">
                   AI Triage
                 </Link>{" "}
                 first to categorise your bookmarks, then generate embeddings here.
@@ -156,11 +150,11 @@ export default function SearchPage() {
         )}
 
         {needsEmbeddings && (
-          <Card className="mb-6 border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950">
+          <Card className="mb-6 border-sky-200/60 bg-sky-50/50">
             <CardContent className="py-4">
               {generatePhase === "idle" && (
                 <div className="flex items-center justify-between gap-4">
-                  <p className="text-sm text-blue-800 dark:text-blue-300">
+                  <p className="text-sm text-sky-700">
                     {embeddingStatus!.pending} bookmark
                     {embeddingStatus!.pending !== 1 ? "s" : ""} need embeddings
                     before they can be searched.
@@ -172,13 +166,13 @@ export default function SearchPage() {
               )}
               {generatePhase === "running" && (
                 <div className="space-y-1">
-                  <p className="text-sm text-blue-800 dark:text-blue-300">
+                  <p className="text-sm text-sky-700">
                     Generating embeddings… {generateProgress.completed}/
                     {generateProgress.total}
                   </p>
-                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-blue-200 dark:bg-blue-800">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-sky-100">
                     <div
-                      className="h-full rounded-full bg-blue-500 transition-all"
+                      className="h-full rounded-full bg-sky-500 transition-all"
                       style={{
                         width:
                           generateProgress.total > 0
@@ -190,7 +184,7 @@ export default function SearchPage() {
                 </div>
               )}
               {generatePhase === "done" && (
-                <p className="text-sm text-green-700 dark:text-green-400">
+                <p className="text-sm text-emerald-600">
                   Embeddings generated. You can now search.
                 </p>
               )}
@@ -203,7 +197,7 @@ export default function SearchPage() {
           <CardContent className="pt-4">
             <div className="flex gap-2">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground/40" />
                 <Input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -247,9 +241,9 @@ export default function SearchPage() {
 
         {/* Error */}
         {searchError && (
-          <Card className="mb-4 border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950">
+          <Card className="mb-4 border-destructive/20 bg-destructive/5">
             <CardContent className="py-3">
-              <p className="text-sm text-red-700 dark:text-red-400">{searchError}</p>
+              <p className="text-sm text-destructive">{searchError}</p>
             </CardContent>
           </Card>
         )}
@@ -262,8 +256,8 @@ export default function SearchPage() {
         {/* Empty state */}
         {results === null && !searching && !searchError && (
           <div className="py-12 text-center">
-            <Search className="mx-auto mb-3 h-8 w-8 text-gray-300" />
-            <p className="text-sm text-gray-400">
+            <Search className="mx-auto mb-3 h-8 w-8 text-muted-foreground/30" />
+            <p className="text-sm text-muted-foreground">
               Type a query above and press Enter or click Search
             </p>
             <div className="mt-4 space-y-1">
@@ -275,7 +269,7 @@ export default function SearchPage() {
                 <button
                   key={example}
                   onClick={() => setQuery(example)}
-                  className="block w-full text-xs text-blue-500 hover:underline dark:text-blue-400"
+                  className="block w-full text-xs text-muted-foreground hover:text-foreground transition-colors"
                 >
                   &ldquo;{example}&rdquo;
                 </button>

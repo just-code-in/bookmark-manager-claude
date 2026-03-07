@@ -41,17 +41,17 @@ interface BookmarkCardProps {
 }
 
 const statusColors: Record<string, string> = {
-  live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-  redirected: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-  dead: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-  pending: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300",
+  live: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  redirected: "border-amber-200 bg-amber-50 text-amber-600",
+  dead: "border-red-200 bg-red-50 text-destructive",
+  pending: "border-border bg-muted text-muted-foreground",
 };
 
 const actionColors: Record<string, string> = {
-  keep: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-  archive: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-  delete: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-  unreviewed: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
+  keep: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  archive: "border-amber-200 bg-amber-50 text-amber-600",
+  delete: "border-red-200 bg-red-50 text-destructive",
+  unreviewed: "border-border bg-muted text-muted-foreground",
 };
 
 export function BookmarkCard({
@@ -110,8 +110,10 @@ export function BookmarkCard({
 
   return (
     <div
-      className={`rounded-lg border bg-[var(--background)] p-4 transition-colors ${
-        isSelected ? "border-blue-400 dark:border-blue-600" : "border-gray-200 dark:border-gray-800"
+      className={`rounded-lg border bg-card p-4 transition-all duration-150 ${
+        isSelected
+          ? "border-primary/40 shadow-[0_0_0_3px_oklch(0.205_0_0/0.06)]"
+          : "border-border hover:shadow-[0_1px_4px_0_oklch(0_0_0/0.05)]"
       }`}
     >
       {/* Top row */}
@@ -140,33 +142,33 @@ export function BookmarkCard({
               <ActionBtn
                 label="Keep"
                 active={bookmark.userAction === "keep"}
-                activeClass="bg-green-100 text-green-700 border-green-300 dark:bg-green-900 dark:text-green-300 dark:border-green-700"
+                activeClass="border-emerald-200 bg-emerald-50 text-emerald-700"
                 onClick={() => handleAction("keep")}
               />
               <ActionBtn
                 label="Archive"
                 active={bookmark.userAction === "archive"}
-                activeClass="bg-yellow-100 text-yellow-700 border-yellow-300 dark:bg-yellow-900 dark:text-yellow-300 dark:border-yellow-700"
+                activeClass="border-amber-200 bg-amber-50 text-amber-600"
                 onClick={() => handleAction("archive")}
               />
               <ActionBtn
                 label="Delete"
                 active={bookmark.userAction === "delete"}
-                activeClass="bg-red-100 text-red-700 border-red-300 dark:bg-red-900 dark:text-red-300 dark:border-red-700"
+                activeClass="border-red-200 bg-red-50 text-destructive"
                 onClick={() => handleAction("delete")}
               />
             </div>
           </div>
 
           {/* URL */}
-          <p className="mt-0.5 truncate text-xs text-gray-400 dark:text-gray-500">
+          <p className="mt-0.5 truncate text-xs text-muted-foreground/60">
             {bookmark.url}
           </p>
 
           {/* Badges row */}
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
             <Badge
-              variant="secondary"
+              variant="outline"
               className={statusColors[bookmark.urlStatus] ?? statusColors.pending}
             >
               {displayStatus}
@@ -174,7 +176,7 @@ export function BookmarkCard({
 
             {bookmark.userAction !== "unreviewed" && (
               <Badge
-                variant="secondary"
+                variant="outline"
                 className={actionColors[bookmark.userAction]}
               >
                 {bookmark.userAction}
@@ -203,8 +205,8 @@ export function BookmarkCard({
                 title="Click to change category"
               >
                 <Badge
-                  variant="secondary"
-                  className="cursor-pointer bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800"
+                  variant="outline"
+                  className="cursor-pointer border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 transition-colors"
                 >
                   {bookmark.category ?? "Uncategorised"}
                 </Badge>
@@ -239,7 +241,7 @@ export function BookmarkCard({
               </div>
             ) : bookmark.summary ? (
               <div className="group flex items-start gap-1">
-                <p className="text-xs text-gray-600 dark:text-gray-400">
+                <p className="text-xs text-muted-foreground leading-relaxed">
                   {bookmark.summary}
                 </p>
                 <button
@@ -253,7 +255,7 @@ export function BookmarkCard({
             ) : bookmark.triageStatus === "completed" ? (
               <button
                 onClick={() => startEdit("summary")}
-                className="text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
               >
                 + Add summary
               </button>
@@ -295,7 +297,7 @@ export function BookmarkCard({
                   <Badge
                     key={tag}
                     variant="outline"
-                    className="px-1.5 py-0 text-[10px]"
+                    className="px-1.5 py-0 text-[10px] text-muted-foreground border-border/60"
                   >
                     {tag}
                   </Badge>
@@ -327,10 +329,10 @@ function ActionBtn({ label, active, activeClass, onClick }: ActionBtnProps) {
   return (
     <button
       onClick={onClick}
-      className={`rounded border px-2 py-0.5 text-xs font-medium transition-colors ${
+      className={`rounded border px-2 py-0.5 text-xs font-medium transition-all duration-150 ${
         active
           ? activeClass
-          : "border-gray-200 text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:border-gray-700 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:text-gray-300"
+          : "border-border/60 text-muted-foreground hover:border-border hover:text-foreground"
       }`}
     >
       {label}

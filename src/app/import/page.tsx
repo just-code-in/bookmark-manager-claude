@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Link from "next/link";
 import { FileUpload } from "@/components/import/file-upload";
 import { ImportProgress } from "@/components/import/import-progress";
 import { ImportSummary } from "@/components/import/import-summary";
@@ -69,22 +68,16 @@ export default function ImportPage() {
   return (
     <main className="min-h-screen bg-[var(--background)]">
       <div className="mx-auto max-w-4xl px-6 py-8">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-8 flex items-start justify-between">
           <div>
-            <Link
-              href="/"
-              className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-            >
-              &larr; Home
-            </Link>
-            <h1 className="mt-1 text-2xl font-bold">Import Bookmarks</h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <h1 className="text-2xl font-semibold">Import Bookmarks</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
               Upload a bookmark export from Safari or Chrome
             </p>
           </div>
           {phase !== "upload" && (
-            <Button variant="outline" onClick={handleStartOver}>
-              Import Another File
+            <Button variant="outline" size="sm" onClick={handleStartOver}>
+              Import another file
             </Button>
           )}
         </div>
@@ -95,7 +88,7 @@ export default function ImportPage() {
             <>
               <FileUpload onUpload={handleUpload} isUploading={isUploading} />
               {uploadError && (
-                <p className="text-sm text-red-600 dark:text-red-400">
+                <p className="text-sm text-destructive">
                   {uploadError}
                 </p>
               )}
@@ -112,30 +105,21 @@ export default function ImportPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
-                      <p className="text-2xl font-bold">
-                        {parseSummary.totalParsed}
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Found in file
-                      </p>
+                  <div className="grid grid-cols-3 gap-2">
+                    <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+                      <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Found in file</p>
+                      <p className="text-lg font-semibold tabular-nums text-foreground">{parseSummary.totalParsed}</p>
                     </div>
-                    <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950">
-                      <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-                        {parseSummary.totalNew}
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        New bookmarks
-                      </p>
+                    <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+                        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">New bookmarks</p>
+                      </div>
+                      <p className="text-lg font-semibold tabular-nums text-sky-600">{parseSummary.totalNew}</p>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
-                      <p className="text-2xl font-bold text-gray-500">
-                        {parseSummary.totalDuplicates}
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Duplicates skipped
-                      </p>
+                    <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+                      <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Duplicates skipped</p>
+                      <p className="text-lg font-semibold tabular-nums text-muted-foreground">{parseSummary.totalDuplicates}</p>
                     </div>
                   </div>
                   {parseSummary.errors.length > 0 && (
@@ -143,7 +127,7 @@ export default function ImportPage() {
                       {parseSummary.errors.map((err, i) => (
                         <p
                           key={i}
-                          className="text-sm text-yellow-600 dark:text-yellow-400"
+                          className="text-sm text-amber-600"
                         >
                           Warning: {err}
                         </p>
@@ -158,7 +142,7 @@ export default function ImportPage() {
                       Validate URLs
                     </Button>
                     {parseSummary.totalNew === 0 && (
-                      <p className="mt-2 text-sm text-gray-500">
+                      <p className="mt-2 text-sm text-muted-foreground">
                         No new bookmarks to validate.
                       </p>
                     )}

@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { AppNav } from "@/components/layout/app-nav";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Bookmark Manager",
@@ -14,7 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <AppNav />
+        {children}
+      </body>
     </html>
   );
 }

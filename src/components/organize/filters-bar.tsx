@@ -20,7 +20,7 @@ export function FiltersBar({ filters, categories, onChange }: FiltersBarProps) {
     onChange({ ...filters, [key]: value });
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2 py-1">
       <Input
         placeholder="Filter by title or URL…"
         value={filters.query}
@@ -31,7 +31,7 @@ export function FiltersBar({ filters, categories, onChange }: FiltersBarProps) {
       <select
         value={filters.status}
         onChange={(e) => set("status", e.target.value)}
-        className="h-8 rounded-md border border-input bg-transparent px-2 text-sm"
+        className="h-8 rounded-md border border-input bg-background px-2 text-sm text-foreground transition-colors hover:border-border focus:outline-none focus:ring-1 focus:ring-ring"
       >
         <option value="">All statuses</option>
         <option value="live">Live</option>
@@ -43,7 +43,7 @@ export function FiltersBar({ filters, categories, onChange }: FiltersBarProps) {
       <select
         value={filters.action}
         onChange={(e) => set("action", e.target.value)}
-        className="h-8 rounded-md border border-input bg-transparent px-2 text-sm"
+        className="h-8 rounded-md border border-input bg-background px-2 text-sm text-foreground transition-colors hover:border-border focus:outline-none focus:ring-1 focus:ring-ring"
       >
         <option value="">All actions</option>
         <option value="unreviewed">Unreviewed</option>
@@ -55,7 +55,7 @@ export function FiltersBar({ filters, categories, onChange }: FiltersBarProps) {
       <select
         value={filters.sort}
         onChange={(e) => set("sort", e.target.value)}
-        className="h-8 rounded-md border border-input bg-transparent px-2 text-sm"
+        className="h-8 rounded-md border border-input bg-background px-2 text-sm text-foreground transition-colors hover:border-border focus:outline-none focus:ring-1 focus:ring-ring"
       >
         <option value="dateAdded">Date added</option>
         <option value="title">Title</option>

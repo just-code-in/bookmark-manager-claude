@@ -19,24 +19,27 @@ interface SearchResultsProps {
 }
 
 const statusColors: Record<string, string> = {
-  live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-  redirected: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-  dead: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
-  pending: "bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400",
+  live: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  redirected: "border-amber-200 bg-amber-50 text-amber-600",
+  dead: "border-red-200 bg-red-50 text-destructive",
+  pending: "border-border bg-muted text-muted-foreground",
 };
 
 export function SearchResults({ results, query }: SearchResultsProps) {
   if (results.length === 0) {
     return (
-      <div className="py-12 text-center text-gray-400">
-        No results for <em>&ldquo;{query}&rdquo;</em>
+      <div className="flex flex-col items-center justify-center py-16 gap-2">
+        <p className="text-sm font-medium text-foreground">No results</p>
+        <p className="text-sm text-muted-foreground">
+          No matches for <em>&ldquo;{query}&rdquo;</em>
+        </p>
       </div>
     );
   }
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-muted-foreground">
         {results.length} result{results.length !== 1 ? "s" : ""} for{" "}
         <em>&ldquo;{query}&rdquo;</em>
       </p>
@@ -44,7 +47,7 @@ export function SearchResults({ results, query }: SearchResultsProps) {
       {results.map((r) => (
         <div
           key={r.id}
-          className="rounded-lg border border-gray-200 bg-[var(--background)] p-4 dark:border-gray-800"
+          className="rounded-lg border border-border bg-card p-4 transition-all duration-150 hover:shadow-[0_1px_4px_0_oklch(0_0_0/0.05)] hover:border-border/60"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
@@ -57,17 +60,17 @@ export function SearchResults({ results, query }: SearchResultsProps) {
                 <span className="line-clamp-1">{r.title}</span>
                 <ExternalLink className="h-3 w-3 shrink-0 opacity-0 group-hover:opacity-60" />
               </a>
-              <p className="mt-0.5 truncate text-xs text-gray-400">{r.url}</p>
+              <p className="mt-0.5 truncate text-xs text-muted-foreground/60">{r.url}</p>
 
               {r.summary && (
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                   {r.summary}
                 </p>
               )}
 
               <div className="mt-2 flex flex-wrap items-center gap-1.5">
                 <Badge
-                  variant="secondary"
+                  variant="outline"
                   className={statusColors[r.urlStatus] ?? statusColors.pending}
                 >
                   {r.urlStatus === "pending" ? "untested" : r.urlStatus}
@@ -75,8 +78,8 @@ export function SearchResults({ results, query }: SearchResultsProps) {
 
                 {r.category && (
                   <Badge
-                    variant="secondary"
-                    className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                    variant="outline"
+                    className="border-sky-200 bg-sky-50 text-sky-700"
                   >
                     {r.category}
                   </Badge>
@@ -86,13 +89,13 @@ export function SearchResults({ results, query }: SearchResultsProps) {
                   <Badge
                     key={tag}
                     variant="outline"
-                    className="px-1.5 py-0 text-[10px]"
+                    className="px-1.5 py-0 text-[10px] text-muted-foreground border-border/60"
                   >
                     {tag}
                   </Badge>
                 ))}
                 {r.tags.length > 4 && (
-                  <span className="text-[10px] text-gray-400">
+                  <span className="text-[10px] text-muted-foreground/60">
                     +{r.tags.length - 4}
                   </span>
                 )}
@@ -101,10 +104,10 @@ export function SearchResults({ results, query }: SearchResultsProps) {
 
             {/* Relevance score */}
             <div className="shrink-0 text-right">
-              <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+              <span className="text-sm font-semibold tabular-nums text-foreground">
                 {Math.round(r.score * 100)}%
               </span>
-              <p className="text-[10px] text-gray-400">match</p>
+              <p className="text-[10px] text-muted-foreground/60">match</p>
             </div>
           </div>
         </div>

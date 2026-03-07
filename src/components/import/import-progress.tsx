@@ -3,7 +3,6 @@
 import { useEffect, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
 import { useSSE } from "@/hooks/use-sse";
 
 interface ValidationEvent {
@@ -24,11 +23,10 @@ interface ImportProgressProps {
   onComplete: () => void;
 }
 
-const statusColors = {
-  live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
-  redirected:
-    "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
-  dead: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300",
+const statusDotColors: Record<string, string> = {
+  live: "bg-emerald-500",
+  redirected: "bg-amber-400",
+  dead: "bg-red-500",
 };
 
 export function ImportProgress({
@@ -71,50 +69,45 @@ export function ImportProgress({
       <CardContent className="space-y-4">
         <div>
           <div className="mb-2 flex justify-between text-sm">
-            <span className="text-gray-600 dark:text-gray-400">
+            <span className="text-muted-foreground">
               {completed} of {totalNew} checked
             </span>
             <span className="font-medium">{Math.round(progressPercent)}%</span>
           </div>
-          <Progress value={progressPercent} />
+          <Progress value={progressPercent} className="h-1" />
         </div>
 
         <div className="flex gap-4">
           <div className="flex items-center gap-1.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-green-500" />
-            <span className="text-sm">Live: {counts.live}</span>
+            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="text-sm text-muted-foreground">Live: <span className="text-foreground font-medium">{counts.live}</span></span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-yellow-500" />
-            <span className="text-sm">Redirected: {counts.redirected}</span>
+            <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+            <span className="text-sm text-muted-foreground">Redirected: <span className="text-foreground font-medium">{counts.redirected}</span></span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-red-500" />
-            <span className="text-sm">Dead: {counts.dead}</span>
+            <div className="h-1.5 w-1.5 rounded-full bg-red-500" />
+            <span className="text-sm text-muted-foreground">Dead: <span className="text-foreground font-medium">{counts.dead}</span></span>
           </div>
         </div>
 
         {error && (
-          <p className="text-sm text-red-600 dark:text-red-400">
+          <p className="text-sm text-destructive">
             Error: {error}
           </p>
         )}
 
         {latest.length > 0 && (
           <div className="space-y-1">
-            <p className="text-xs font-medium text-gray-500">Recent checks:</p>
+            <p className="text-xs font-medium text-muted-foreground">Recent checks:</p>
             {latest.map((event) => (
               <div
                 key={event.bookmarkId}
                 className="flex items-center gap-2 text-xs"
               >
-                <Badge
-                  variant="secondary"
-                  className={`px-1.5 py-0 text-[10px] ${statusColors[event.status]}`}
-                >
-                  {event.status}
-                </Badge>
-                <span className="truncate text-gray-600 dark:text-gray-400">
+                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${statusDotColors[event.status]}`} />
+                <span className="truncate text-muted-foreground">
                   {event.url}
                 </span>
               </div>

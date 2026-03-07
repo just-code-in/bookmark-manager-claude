@@ -1,5 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 export interface OrganizeStats {
   total: number;
   live: number;
@@ -22,23 +20,16 @@ interface StatsPanelProps {
 
 export function StatsPanel({ stats }: StatsPanelProps) {
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base">Collection Overview</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-          <StatBox label="Total" value={stats.total} />
-          <StatBox label="Live" value={stats.live} color="green" />
-          <StatBox label="Redirected" value={stats.redirected} color="yellow" />
-          <StatBox label="Dead" value={stats.dead} color="red" />
-          <StatBox label="Triaged" value={stats.triaged} color="blue" />
-          <StatBox label="Reviewed" value={`${stats.percentReviewed}%`} />
-          <StatBox label="Kept" value={stats.byAction.keep} color="green" />
-          <StatBox label="Archived" value={stats.byAction.archive} color="yellow" />
-        </div>
-      </CardContent>
-    </Card>
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
+      <StatBox label="Total" value={stats.total} />
+      <StatBox label="Live" value={stats.live} color="green" />
+      <StatBox label="Redirected" value={stats.redirected} color="yellow" />
+      <StatBox label="Dead" value={stats.dead} color="red" />
+      <StatBox label="Triaged" value={stats.triaged} color="blue" />
+      <StatBox label="Reviewed" value={`${stats.percentReviewed}%`} />
+      <StatBox label="Kept" value={stats.byAction.keep} color="green" />
+      <StatBox label="Archived" value={stats.byAction.archive} color="yellow" />
+    </div>
   );
 }
 
@@ -49,25 +40,36 @@ interface StatBoxProps {
 }
 
 function StatBox({ label, value, color }: StatBoxProps) {
-  const bgMap: Record<string, string> = {
-    green: "bg-green-50 dark:bg-green-950",
-    yellow: "bg-yellow-50 dark:bg-yellow-950",
-    red: "bg-red-50 dark:bg-red-950",
-    blue: "bg-blue-50 dark:bg-blue-950",
+  const dotColors: Record<string, string> = {
+    green: "bg-emerald-500",
+    yellow: "bg-amber-400",
+    red: "bg-red-500",
+    blue: "bg-sky-500",
   };
-  const textMap: Record<string, string> = {
-    green: "text-green-700 dark:text-green-300",
-    yellow: "text-yellow-700 dark:text-yellow-300",
-    red: "text-red-700 dark:text-red-300",
-    blue: "text-blue-700 dark:text-blue-300",
+  const numColors: Record<string, string> = {
+    green: "text-emerald-600",
+    yellow: "text-amber-500",
+    red: "text-destructive",
+    blue: "text-sky-600",
   };
-  const bg = color ? (bgMap[color] ?? "bg-gray-50 dark:bg-gray-900") : "bg-gray-50 dark:bg-gray-900";
-  const text = color ? (textMap[color] ?? "") : "";
 
   return (
-    <div className={`rounded-lg p-3 ${bg}`}>
-      <p className={`text-xl font-bold ${text}`}>{value}</p>
-      <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
+    <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+      <div className="flex items-center gap-1.5 mb-1">
+        {color && (
+          <span className={`h-1.5 w-1.5 rounded-full ${dotColors[color]}`} />
+        )}
+        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+          {label}
+        </p>
+      </div>
+      <p
+        className={`text-lg font-semibold tabular-nums ${
+          color ? numColors[color] : "text-foreground"
+        }`}
+      >
+        {value}
+      </p>
     </div>
   );
 }

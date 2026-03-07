@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useSSE } from "@/hooks/use-sse";
+// Badge is still used for taxonomy categories above
 
 // Union of all non-control SSE events we care about
 type TriageEvent =
@@ -122,12 +123,12 @@ export function TriageProgress({ onComplete }: TriageProgressProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-3 text-sm text-gray-500 dark:text-gray-400">
+            <p className="mb-3 text-sm text-muted-foreground">
               Based on a sample of {taxonomy.sampleSize} bookmarks
             </p>
             <div className="flex flex-wrap gap-2">
               {taxonomy.categories.map((cat) => (
-                <Badge key={cat} variant="secondary">
+                <Badge key={cat} className="bg-muted text-muted-foreground border border-border/60 text-xs">
                   {cat}
                 </Badge>
               ))}
@@ -144,7 +145,7 @@ export function TriageProgress({ onComplete }: TriageProgressProps) {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600 dark:text-gray-400">
+              <span className="text-muted-foreground">
                 {contentProgress.completed} of {contentProgress.total} pages
                 fetched
               </span>
@@ -159,6 +160,7 @@ export function TriageProgress({ onComplete }: TriageProgressProps) {
               value={
                 (contentProgress.completed / contentProgress.total) * 100
               }
+              className="h-1"
             />
           </CardContent>
         </Card>
@@ -173,25 +175,25 @@ export function TriageProgress({ onComplete }: TriageProgressProps) {
           <CardContent className="space-y-4">
             <div>
               <div className="mb-2 flex justify-between text-sm">
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-muted-foreground">
                   {triageCompleted} of {triageTotal} processed
                 </span>
                 <span className="font-medium">
                   {Math.round(triagePercent)}%
                 </span>
               </div>
-              <Progress value={triagePercent} />
+              <Progress value={triagePercent} className="h-1" />
             </div>
 
             <div className="flex gap-4 text-sm">
-              <span className="text-gray-600 dark:text-gray-400">
+              <span className="text-muted-foreground">
                 Running cost: ${totalCost.toFixed(4)}
               </span>
             </div>
 
             {recentTriage.length > 0 && (
               <div className="space-y-1">
-                <p className="text-xs font-medium text-gray-500">
+                <p className="text-xs font-medium text-muted-foreground">
                   Recently categorised:
                 </p>
                 {recentTriage.map(
@@ -201,14 +203,12 @@ export function TriageProgress({ onComplete }: TriageProgressProps) {
                         key={event.bookmarkId}
                         className="flex items-center gap-2 text-xs"
                       >
-                        <Badge
-                          variant="secondary"
-                          className="px-1.5 py-0 text-[10px] bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
-                        >
-                          {event.category}
-                        </Badge>
-                        <span className="truncate text-gray-600 dark:text-gray-400">
+                        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500/70" />
+                        <span className="truncate text-muted-foreground">
                           {event.title}
+                        </span>
+                        <span className="shrink-0 text-[10px] text-muted-foreground/60">
+                          {event.category}
                         </span>
                       </div>
                     ),
@@ -222,7 +222,7 @@ export function TriageProgress({ onComplete }: TriageProgressProps) {
       {error && (
         <Card>
           <CardContent className="pt-6">
-            <p className="text-sm text-red-600 dark:text-red-400">
+            <p className="text-sm text-destructive">
               Error: {error}
             </p>
           </CardContent>

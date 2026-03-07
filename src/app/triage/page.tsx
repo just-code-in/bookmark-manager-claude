@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { TriageProgress } from "@/components/triage/triage-progress";
 import { TriageSummary } from "@/components/triage/triage-summary";
 
@@ -99,14 +99,8 @@ export default function TriagePage() {
     <main className="min-h-screen bg-[var(--background)]">
       <div className="mx-auto max-w-4xl px-6 py-8">
         <div className="mb-8">
-          <Link
-            href="/"
-            className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-          >
-            &larr; Home
-          </Link>
-          <h1 className="mt-1 text-2xl font-bold">AI Triage</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <h1 className="text-2xl font-semibold">AI Triage</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
             Categorise, tag, and summarise your bookmarks using AI
           </p>
         </div>
@@ -122,29 +116,29 @@ export default function TriagePage() {
                 </CardHeader>
                 <CardContent>
                   {apiKeyConfigured === null && (
-                    <p className="text-sm text-gray-500">Checking configuration...</p>
+                    <p className="text-sm text-muted-foreground">Checking configuration...</p>
                   )}
 
                   {apiKeyConfigured === true && (
-                    <p className="text-sm text-green-600 dark:text-green-400">
+                    <p className="text-sm text-emerald-600">
                       API key is configured.
                     </p>
                   )}
 
                   {apiKeyConfigured === false && (
                     <div className="space-y-3">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground">
                         Enter your OpenAI API key to enable AI triage. You can also
-                        set <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">OPENAI_API_KEY</code> in{" "}
-                        <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">.env.local</code>.
+                        set <code className="rounded bg-muted px-1 text-xs font-mono">OPENAI_API_KEY</code> in{" "}
+                        <code className="rounded bg-muted px-1 text-xs font-mono">.env.local</code>.
                       </p>
                       <div className="flex gap-2">
-                        <input
+                        <Input
                           type="password"
                           value={apiKeyInput}
                           onChange={(e) => setApiKeyInput(e.target.value)}
                           placeholder="sk-..."
-                          className="flex-1 rounded-md border px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-900"
+                          className="flex-1"
                         />
                         <Button
                           onClick={handleSaveApiKey}
@@ -154,7 +148,7 @@ export default function TriagePage() {
                         </Button>
                       </div>
                       {apiKeyError && (
-                        <p className="text-sm text-red-600 dark:text-red-400">
+                        <p className="text-sm text-destructive">
                           {apiKeyError}
                         </p>
                       )}
@@ -170,28 +164,24 @@ export default function TriagePage() {
                     <CardTitle className="text-lg">Bookmark Status</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
-                        <p className="text-2xl font-bold">{triageStats.total}</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Total bookmarks
-                        </p>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+                        <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-1">Total bookmarks</p>
+                        <p className="text-lg font-semibold tabular-nums text-foreground">{triageStats.total}</p>
                       </div>
-                      <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950">
-                        <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-                          {pendingCount}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Pending triage
-                        </p>
+                      <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+                          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Pending triage</p>
+                        </div>
+                        <p className="text-lg font-semibold tabular-nums text-sky-600">{pendingCount}</p>
                       </div>
-                      <div className="rounded-lg bg-green-50 p-4 dark:bg-green-950">
-                        <p className="text-2xl font-bold text-green-700 dark:text-green-300">
-                          {triageStats.completed}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Already triaged
-                        </p>
+                      <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                          <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Already triaged</p>
+                        </div>
+                        <p className="text-lg font-semibold tabular-nums text-emerald-600">{triageStats.completed}</p>
                       </div>
                     </div>
 
@@ -203,7 +193,7 @@ export default function TriagePage() {
                         Start AI Triage ({pendingCount} bookmarks)
                       </Button>
                       {!canStart && apiKeyConfigured === true && pendingCount === 0 && (
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-muted-foreground">
                           All bookmarks have already been triaged.
                         </p>
                       )}

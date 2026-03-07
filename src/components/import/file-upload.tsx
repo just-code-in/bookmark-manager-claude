@@ -68,14 +68,14 @@ export function FileUpload({ onUpload, isUploading }: FileUploadProps) {
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
-          className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-12 transition-colors ${
+          className={`flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-10 transition-colors ${
             dragOver
-              ? "border-blue-500 bg-blue-50 dark:bg-blue-950"
-              : "border-gray-300 hover:border-gray-400 dark:border-gray-700 dark:hover:border-gray-600"
+              ? "border-primary/50 bg-primary/[0.03]"
+              : "border-border hover:border-border/60"
           }`}
         >
           <svg
-            className="mb-4 h-12 w-12 text-gray-400"
+            className="mb-4 h-8 w-8 text-muted-foreground/40"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -87,13 +87,13 @@ export function FileUpload({ onUpload, isUploading }: FileUploadProps) {
               d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
             />
           </svg>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            <span className="font-semibold text-blue-600 dark:text-blue-400">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">
               Click to browse
             </span>{" "}
             or drag and drop
           </p>
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-1 text-xs text-muted-foreground/70">
             HTML bookmark export from Safari or Chrome
           </p>
           <input
@@ -106,7 +106,7 @@ export function FileUpload({ onUpload, isUploading }: FileUploadProps) {
         </div>
 
         {error && (
-          <p className="mt-3 text-sm text-red-600 dark:text-red-400">
+          <p className="mt-3 text-sm text-destructive">
             {error}
           </p>
         )}
@@ -115,7 +115,7 @@ export function FileUpload({ onUpload, isUploading }: FileUploadProps) {
           <div className="mt-4 flex items-center justify-between">
             <div>
               <p className="text-sm font-medium">{selectedFile.name}</p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 {(selectedFile.size / 1024).toFixed(1)} KB
               </p>
             </div>

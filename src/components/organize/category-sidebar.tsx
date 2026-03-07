@@ -65,14 +65,14 @@ export function CategorySidebar({
       {/* All bookmarks */}
       <button
         onClick={() => onSelectCategory(null)}
-        className={`flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
+        className={`flex w-full items-center justify-between rounded-r-md py-1.5 pr-3 text-sm transition-colors ${
           selectedCategory === null
-            ? "bg-primary text-primary-foreground"
-            : "hover:bg-gray-100 dark:hover:bg-gray-800"
+            ? "border-l-2 border-primary bg-accent pl-[10px] font-medium text-foreground"
+            : "pl-3 text-muted-foreground hover:bg-accent/60 hover:text-foreground"
         }`}
       >
         <span>All bookmarks</span>
-        <span className="text-xs opacity-70">{totalCount}</span>
+        <span className="text-xs tabular-nums text-muted-foreground/50">{totalCount}</span>
       </button>
 
       {/* Category list */}
@@ -105,10 +105,10 @@ export function CategorySidebar({
             </div>
           ) : (
             <div
-              className={`flex items-center justify-between rounded-md px-3 py-2 text-sm transition-colors ${
+              className={`flex items-center justify-between rounded-r-md py-1.5 pr-3 text-sm transition-colors ${
                 selectedCategory === cat.name
-                  ? "bg-primary text-primary-foreground"
-                  : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                  ? "border-l-2 border-primary bg-accent pl-[10px] font-medium text-foreground"
+                  : "pl-3 text-muted-foreground hover:bg-accent/60 hover:text-foreground"
               }`}
             >
               <button
@@ -118,7 +118,7 @@ export function CategorySidebar({
                 <span className="block max-w-[130px] truncate">{cat.name}</span>
               </button>
               <div className="flex items-center gap-1">
-                <span className="text-xs opacity-60">{cat.count}</span>
+                <span className="text-xs tabular-nums text-muted-foreground/50">{cat.count}</span>
                 <div className="hidden items-center gap-0.5 group-hover:flex">
                   <button
                     title="Rename"
@@ -145,9 +145,9 @@ export function CategorySidebar({
                       <DialogHeader>
                         <DialogTitle>Merge category</DialogTitle>
                       </DialogHeader>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground">
                         Move all bookmarks from{" "}
-                        <strong>{cat.name}</strong> into:
+                        <strong className="text-foreground">{cat.name}</strong> into:
                       </p>
                       <select
                         value={mergeTarget}
@@ -193,8 +193,8 @@ export function CategorySidebar({
                       <DialogHeader>
                         <DialogTitle>Remove category</DialogTitle>
                       </DialogHeader>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Remove <strong>{cat.name}</strong>? The {cat.count}{" "}
+                      <p className="text-sm text-muted-foreground">
+                        Remove <strong className="text-foreground">{cat.name}</strong>? The {cat.count}{" "}
                         bookmark{cat.count !== 1 ? "s" : ""} in this category
                         will become uncategorised.
                       </p>
@@ -222,7 +222,7 @@ export function CategorySidebar({
       ))}
 
       {categories.length === 0 && (
-        <p className="px-3 py-4 text-xs text-gray-400">
+        <p className="px-3 py-4 text-xs text-muted-foreground/60">
           No categories yet. Run AI Triage first.
         </p>
       )}

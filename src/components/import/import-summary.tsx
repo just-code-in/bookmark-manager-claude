@@ -24,6 +24,18 @@ interface ImportSummaryProps {
   batchId: number;
 }
 
+function StatBox({ label, value, numColor = "text-foreground", dot }: { label: string; value: number | string; numColor?: string; dot?: string }) {
+  return (
+    <div className="rounded-lg border border-border/60 bg-background px-3 py-2.5">
+      <div className="flex items-center gap-1.5 mb-1">
+        {dot && <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />}
+        <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{label}</p>
+      </div>
+      <p className={`text-lg font-semibold tabular-nums ${numColor}`}>{value}</p>
+    </div>
+  );
+}
+
 export function ImportSummary({ batchId }: ImportSummaryProps) {
   const [stats, setStats] = useState<BatchStats | null>(null);
   const [batch, setBatch] = useState<BatchData | null>(null);
@@ -45,7 +57,7 @@ export function ImportSummary({ batchId }: ImportSummaryProps) {
   if (loading) {
     return (
       <Card>
-        <CardContent className="py-8 text-center text-gray-500">
+        <CardContent className="py-8 text-center text-muted-foreground">
           Loading summary...
         </CardContent>
       </Card>
@@ -64,45 +76,13 @@ export function ImportSummary({ batchId }: ImportSummaryProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
-              <p className="text-2xl font-bold">{batch?.totalParsed ?? "-"}</p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Parsed</p>
-            </div>
-            <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950">
-              <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
-                {batch?.totalNew ?? "-"}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">New</p>
-            </div>
-            <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-900">
-              <p className="text-2xl font-bold text-gray-500">
-                {batch?.totalDuplicates ?? "-"}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Duplicates
-              </p>
-            </div>
-            <div className="rounded-lg bg-green-50 p-4 dark:bg-green-950">
-              <p className="text-2xl font-bold text-green-700 dark:text-green-300">
-                {stats.live}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Live</p>
-            </div>
-            <div className="rounded-lg bg-yellow-50 p-4 dark:bg-yellow-950">
-              <p className="text-2xl font-bold text-yellow-700 dark:text-yellow-300">
-                {stats.redirected}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Redirected
-              </p>
-            </div>
-            <div className="rounded-lg bg-red-50 p-4 dark:bg-red-950">
-              <p className="text-2xl font-bold text-red-700 dark:text-red-300">
-                {stats.dead}
-              </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Dead</p>
-            </div>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+            <StatBox label="Parsed" value={batch?.totalParsed ?? "-"} />
+            <StatBox label="New" value={batch?.totalNew ?? "-"} numColor="text-sky-600" dot="bg-sky-500" />
+            <StatBox label="Duplicates" value={batch?.totalDuplicates ?? "-"} numColor="text-muted-foreground" />
+            <StatBox label="Live" value={stats.live} numColor="text-emerald-600" dot="bg-emerald-500" />
+            <StatBox label="Redirected" value={stats.redirected} numColor="text-amber-500" dot="bg-amber-400" />
+            <StatBox label="Dead" value={stats.dead} numColor="text-destructive" dot="bg-red-500" />
           </div>
         </CardContent>
       </Card>
