@@ -1,4 +1,4 @@
-# Bookmark Manager
+# Bookmark Manager (built by Claude Code)
 
 **Import your browser bookmarks, let AI categorise and summarise them, then search in plain English.**
 
