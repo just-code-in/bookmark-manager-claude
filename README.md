@@ -73,6 +73,8 @@ This is the **Claude Code build**. The Codex build is here: [bookmark-manager-co
 
 Both repos share an identical [Product Requirements Document](https://github.com/just-code-in/bookmark-manager-claude/blob/main/PRD.md) as their starting point.
 
+For the complete account of what happened across all four phases, read [Built Twice: The Full Story](docs/built-twice-the-full-story.md).
+
 ---
 
 ## How it was built
@@ -93,7 +95,7 @@ You don't need to understand any of this to use the app — this section is here
 
 (These are the folders the app creates on your computer when you clone the repository. You won't need to open or edit any of them — this is just a map of how things are organised internally.)
 
-```
+```text
 src/
 ├── app/                  # Next.js pages and API routes
 ├── components/           # React components (import, triage, organise, search, ui)
@@ -104,4 +106,3 @@ src/
     ├── triage/           # AI categorisation pipeline
     └── validator/        # URL validator with concurrency pool
 ```
-
